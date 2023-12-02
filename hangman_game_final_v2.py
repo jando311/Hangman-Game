@@ -10,13 +10,10 @@ def get_word (df):
     new_definition = random_definition.replace (random_word, len(random_word)*'*')
     return random_word, random_definition, new_definition 
 
- 
-## list [word, definition, new definition] eg list [0,1,2]
-
 list_input = get_word (df)
-word = 'house'
+word = list_input [0]
 unknown_word = list(len(word)*'_')
-random_word = 'house'
+random_word = list_input [0]
 random_definition = list_input [1]
 new_definition = list_input [2]
 
@@ -25,7 +22,8 @@ guessed_letter = []
 guessed_word = []
 
 tries = 6 
-hint_used = False ## Assuming the user hasn't used the hint
+hint_used = False 
+
 def hangman_drawing (tries):
     drawing = ["""  
                     --------
@@ -98,8 +96,6 @@ print ("\n")
 print (hangman_drawing(tries))
 print ('\n')
     
-## change validation for hint (y/n) 
-## change if loop for tries 
 
 def get_index (variable):
     positions = [i for i, letter in enumerate (word) if letter == variable]
@@ -177,17 +173,10 @@ def hangman_game_func (tries):
 
     if unknown_word == list (word) or guess == word:
         print ("Congratulations,",guess, "is the word!")
-        return True
-    else:
-        print ("You lost, the word was,",word,".")
-        return False
-    
-result = hangman_game_func (tries)
 
-if result: 
-    print ('You won!')
-else: 
-    print ('Better luck next time.')
+    else:
+        print ("You lost, the word was,",word,".")    
+    
 
 print (hangman_game_func (tries))
 
