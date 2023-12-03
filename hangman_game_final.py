@@ -112,8 +112,6 @@ def hangman_game_func (tries):
     value = 0 
     while tries > 0 and guessed_word != word:
         print (tries)
-        print (value)
-
 
         if value == 3 and not hint_used:
             hint = input ('Do you want a hint? (Y/N): ')
