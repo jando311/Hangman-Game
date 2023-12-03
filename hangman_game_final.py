@@ -13,9 +13,9 @@ def get_word (df):
  
 
 list_input = get_word (df)
-word = list_input [0]
+word = list_input[0]
 unknown_word = list(len(word)*'_')
-random_word = list_input [0]
+random_word = list_input[0]
 random_definition = list_input [1]
 new_definition = list_input [2]
 
@@ -25,6 +25,7 @@ guessed_word = []
 
 tries = 6 
 hint_used = False 
+hint_2_used = False 
 
 
 def hangman_drawing (tries):
@@ -108,27 +109,13 @@ def get_index (variable):
 
     
 def hangman_game_func (tries):
+    value = 0 
     while tries > 0 and guessed_word != word:
         print (tries)
-
-        if tries == 1 and guessed_word != word and not hint_used: 
-            hint_2 = input ('Do you want another hint? (Y/N): ')
-            lowercase_hint_2 = hint_2.lower()
-
-            if lowercase_hint_2 == 'y' and len (lowercase_hint_2) == 1:
-                indexes_word = [i for i, value in enumerate (unknown_word) if value == '_']
-                random_index = random.choice (indexes_word)
-                get_index (word [random_index])
-
-            elif lowercase_hint_2 == 'n' and len (lowercase_hint_2) == 1:
-                print ('You are almost out of luck!')
-
-            else:
-                print ('Invalid input, please answer only with (Y/N)')
-                continue
+        print (value)
 
 
-        if tries == 3 and guessed_word != word and not hint_used:
+        if value == 3 and not hint_used:
             hint = input ('Do you want a hint? (Y/N): ')
             lowercase_hint = hint.lower()
 
@@ -145,6 +132,22 @@ def hangman_game_func (tries):
             elif lowercase_hint != 'n' or 'y':
                 print ('Invalid input, please answer only with (Y/N)')
                 continue
+
+        if value == 4 and not hint_used: 
+            hint_2 = input ('Do you want another hint? (Y/N): ')
+            lowercase_hint_2 = hint_2.lower()
+
+            if lowercase_hint_2 == 'y' and len (lowercase_hint_2) == 1:
+                indexes_word = [i for i, value in enumerate (unknown_word) if value == '_']
+                random_index = random.choice (indexes_word)
+                get_index (word [random_index])
+
+            elif lowercase_hint_2 == 'n' and len (lowercase_hint_2) == 1:
+                print ('You are almost out of luck!')
+
+            else:
+                print ('Invalid input, please answer only with (Y/N)')
+                continue
             
         
         print (unknown_word) 
@@ -157,6 +160,7 @@ def hangman_game_func (tries):
 
 
         if guess in word and len(guess)==1 and guess.isalpha:
+            value -= 1
             guessed_letter.append(guess) 
             print (hangman_drawing(tries))
             print ("Congratulations",guess,"is in the word!")
@@ -171,6 +175,7 @@ def hangman_game_func (tries):
 
         if guess != word and len(guess)==1 and guess.isalpha:
             tries -= 1
+            value += 1
             guessed_letter.append(guess)
             print (hangman_drawing(tries))
             print ("No,",guess,"is not in the word")
@@ -178,7 +183,8 @@ def hangman_game_func (tries):
 
 
         if guess != word:
-            tries -= 1 
+            tries -= 1
+            value += 1
             guessed_word.append (guess)
             print (hangman_drawing(tries))
             print ("No,",guess,"is not the word")
